@@ -104,10 +104,17 @@ class web_scraper:
 
     def start(self):
         #db_connection connection
-        db_password = '$!Tonnid_10!$'
-        db_name = 'web_scrap'
-        db_connection = psycopg2.connect(database=db_name, user='postgres', password=db_password, host='localhost')
-
+        db_name = ''
+        db_password = ''
+        while True:
+            db_password = input('Please input db password: ')
+            db_name = input('Please input db name: ')
+            try:
+                db_connection = psycopg2.connect(database=db_name, user='postgres', password=db_password, host='localhost')
+                break 
+            except:
+                print('Failed connection, try again.')
+                continue
         db_cursor = db_connection.cursor()
         # initialize ids
         db_cursor.execute(f'''SELECT MAX(id) FROM categories;''')
